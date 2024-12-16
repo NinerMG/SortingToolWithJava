@@ -1,11 +1,11 @@
 package main;
 
-import controller.Controller;
+import controller.DataTypeController;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        Controller controller = new Controller();
+        DataTypeController dataTypeController = new DataTypeController();
     }
 }

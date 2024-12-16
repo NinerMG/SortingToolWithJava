@@ -36,4 +36,8 @@ public class NumberList {
         return Collections.frequency(numbers, number);
     }
 
+    public double getPercentageFreq(){
+        return getFrequency(maximumValue()) * 100.0 / size();
+    }
+
 }
