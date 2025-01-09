@@ -1,11 +1,13 @@
 package main;
 
-import controller.DataTypeController;
+import controller.SortIntegers;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        DataTypeController dataTypeController = new DataTypeController();
+        System.out.println("Hello!!");
+
+        SortIntegers sortIntegers = new SortIntegers();
     }
 }
