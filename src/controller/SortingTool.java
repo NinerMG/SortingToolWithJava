@@ -1,42 +1,34 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SortingTool {
 
     //Sorting using streams
-    public ArrayList<Integer> streamSort(ArrayList<Integer> list){
-
+    public <T extends Comparable<T>> ArrayList<T> streamSort(ArrayList<T> list){
         return list.stream()
                 .sorted()
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
     //sorting using comparator interface
-    public ArrayList<Integer> comparatorSort(ArrayList<Integer> list){
-        Collections.sort(list, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o1.compareTo(o2);
-            }
-        });
+    public <T extends Comparable<T>> ArrayList<T> comparatorSort(ArrayList<T> list){
+        list.sort(Comparable::compareTo);
         return list;
     }
 
     //sorting using bubble sort algorithm
-    public ArrayList<Integer> bubbleSort(ArrayList<Integer> list){
-        ArrayList<Integer> sortedList = new ArrayList<>(list);
+    public <T extends Comparable<T>> ArrayList<T> bubbleSort(ArrayList<T> list){
+        ArrayList<T> sortedList = new ArrayList<>(list);
         int n = sortedList.size();
         boolean swapped;
 
         do {
             swapped = false;
             for (int i = 0; i < n - 1; i++){
-                if (sortedList.get(i) > sortedList.get(i + 1)) {
-                    int temp = list.get(i);
+                if (sortedList.get(i).compareTo(sortedList.get(i + 1)) > 0) {
+                    T temp = list.get(i);
                     sortedList.set(i, sortedList.get(i + 1));
                     sortedList.set(i+1, temp);
                     swapped = true;
@@ -49,18 +41,18 @@ public class SortingTool {
     }
 
     //sorting using selection sort algorithm
-    public ArrayList<Integer> selectionSort(ArrayList<Integer> list) {
-        ArrayList<Integer> sortedList = new ArrayList<>(list);
+    public <T extends Comparable<T>> ArrayList<T> selectionSort(ArrayList<T> list) {
+        ArrayList<T> sortedList = new ArrayList<>(list);
         int n = sortedList.size();
 
         for (int i = 0; i < n-1; i++){
             int minIndex = i;
             for (int j = i + 1; j < n; j++){
-                if (sortedList.get(j) < sortedList.get(minIndex)){
+                if (sortedList.get(j).compareTo(sortedList.get(minIndex)) < 0){
                     minIndex = j;
                 }
             }
-            int temp = sortedList.get(minIndex);
+            T temp = sortedList.get(minIndex);
             sortedList.set(minIndex, sortedList.get(i));
             sortedList.set(i, temp);
         }
@@ -68,21 +60,43 @@ public class SortingTool {
     }
 
     //sorting using insertion sort algorithm
-    public ArrayList<Integer> insertionSort(ArrayList<Integer> list) {
-        ArrayList<Integer> sortedList = new ArrayList<>(list);
+    public <T extends Comparable<T>> ArrayList<T> insertionSort(ArrayList<T> list) {
+        ArrayList<T> sortedList = new ArrayList<>(list);
         int n = sortedList.size();
 
         for (int i = 1; i < n; i++){
-            int key = sortedList.get(i);
+            T key = sortedList.get(i);
             int j = i -1;
 
-            while (j >= 0 && sortedList.get(j) > key){
+            while (j >= 0 && sortedList.get(j).compareTo(key) > 0){
                 sortedList.set(j + 1, sortedList.get(j));
                 j--;
             }
             sortedList.set(j+1, key);
         }
         return sortedList;
+    }
+
+    //sorting map by count value
+    public <T extends Comparable<T>> Map<T, Long> sortingMapByCount(ArrayList<T> list){
+        CountingTool countingTool = new CountingTool();
+        Map<T, Long> mapToSort = countingTool.countElements(list);
+
+        return mapToSort.entrySet()
+                .stream()
+                .sorted((entry1, entry2) -> {
+                    int valueComparison = entry1.getValue().compareTo(entry2.getValue());
+                    if (valueComparison != 0) {
+                        return valueComparison;
+                    }
+                    return entry1.getKey().compareTo(entry2.getKey());
+                })
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue,
+                        LinkedHashMap::new
+                ));
     }
 
 }
