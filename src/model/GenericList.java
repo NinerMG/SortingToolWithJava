@@ -13,16 +13,14 @@ public class GenericList <T>{
     public static synchronized <T> GenericList<T> getInstance(){
         if (instance == null){
             instance = new GenericList<>();
+        } else if (!(instance instanceof GenericList<?>)){
+            throw new IllegalStateException("Error with instance of GenericList class!");
         }
         return (GenericList<T>) instance;
     }
 
     public void addElement(T element){
         list.add(element);
-    }
-
-    public int listSize(){
-        return list.size();
     }
 
     public ArrayList<T> getList(){

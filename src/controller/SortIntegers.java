@@ -22,9 +22,7 @@ public class SortIntegers {
     }
 
     private void appLoop(){
-        System.out.println("Please enter data type (numbers, lines, words)");
         String dataType = userInput.getDataTypes();
-        System.out.println("Please enter sorting type (natural, byCount)");
         String sortingType = userInput.getSortingType();
 
 
@@ -47,7 +45,7 @@ public class SortIntegers {
     }
 
     private <T extends Comparable<T>> void processData(ArrayList<T> list, String sortingType, String dataType) {
-        if (list.isEmpty()){
+        if ( list == null || list.isEmpty()){
             System.out.println("No data to sort.");
             return;
         }
@@ -56,14 +54,18 @@ public class SortIntegers {
         printList(dataType, list);
         System.out.println("Total " + dataType + ": " + list.size() + ".");
 
-        if ("natural".equals(sortingType)){
-            System.out.println("Sorted data: ");
-            printList(dataType, sortingTool.streamSort(list));
-        } else if ("byCount".equals(sortingType)){
-            System.out.println("Sorting by Count");
-            printOutput.printSortedElementsByCount(sortingTool.sortingMapByCount(list));
-        } else {
-            System.out.println("Invalid sorting type. Please try again.");
+        try {
+            if ("natural".equals(sortingType)) {
+                System.out.println("Sorted data: ");
+                printList(dataType, sortingTool.streamSort(list));
+            } else if ("byCount".equals(sortingType)) {
+                System.out.println("Sorting by Count");
+                printOutput.printSortedElementsByCount(sortingTool.sortingMapByCount(list));
+            } else {
+               throw new IllegalArgumentException("Unexpected sorting type.");
+            }
+        }catch (IllegalArgumentException e){
+            System.out.println("Error: " + e.getMessage());
         }
     }
 

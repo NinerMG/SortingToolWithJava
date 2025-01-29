@@ -7,6 +7,7 @@ public class SortingTool {
 
     //Sorting using streams
     public <T extends Comparable<T>> ArrayList<T> streamSort(ArrayList<T> list){
+        checkIfListIsEmpty(list);
         return list.stream()
                 .sorted()
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -14,12 +15,15 @@ public class SortingTool {
 
     //sorting using comparator interface
     public <T extends Comparable<T>> ArrayList<T> comparatorSort(ArrayList<T> list){
+        checkIfListIsEmpty(list);
         list.sort(Comparable::compareTo);
         return list;
     }
 
     //sorting using bubble sort algorithm
     public <T extends Comparable<T>> ArrayList<T> bubbleSort(ArrayList<T> list){
+        checkIfListIsEmpty(list);
+
         ArrayList<T> sortedList = new ArrayList<>(list);
         int n = sortedList.size();
         boolean swapped;
@@ -28,7 +32,7 @@ public class SortingTool {
             swapped = false;
             for (int i = 0; i < n - 1; i++){
                 if (sortedList.get(i).compareTo(sortedList.get(i + 1)) > 0) {
-                    T temp = list.get(i);
+                    T temp = sortedList.get(i);
                     sortedList.set(i, sortedList.get(i + 1));
                     sortedList.set(i+1, temp);
                     swapped = true;
@@ -40,8 +44,15 @@ public class SortingTool {
         return sortedList;
     }
 
+    private static <T extends Comparable<T>> void checkIfListIsEmpty(ArrayList<T> list) {
+        if (list == null || list.isEmpty()){
+            throw new IllegalArgumentException("List is empty!");
+        }
+    }
+
     //sorting using selection sort algorithm
     public <T extends Comparable<T>> ArrayList<T> selectionSort(ArrayList<T> list) {
+        checkIfListIsEmpty(list);
         ArrayList<T> sortedList = new ArrayList<>(list);
         int n = sortedList.size();
 
@@ -61,6 +72,7 @@ public class SortingTool {
 
     //sorting using insertion sort algorithm
     public <T extends Comparable<T>> ArrayList<T> insertionSort(ArrayList<T> list) {
+        checkIfListIsEmpty(list);
         ArrayList<T> sortedList = new ArrayList<>(list);
         int n = sortedList.size();
 
