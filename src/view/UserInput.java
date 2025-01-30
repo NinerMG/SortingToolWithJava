@@ -16,21 +16,27 @@ public class UserInput {
     }
 
     public void getNumbers(){
-        System.out.println("Wpisz liczby (Ctrl+D aby zakończyć):");
+        System.out.println("Enter numbers (Ctrl+D to finish):");
+        readNumbers(scanner);
+    }
+
+    public void readNumbers(Scanner scanner) {
         while (scanner.hasNext()){
             try{
                 Long number = scanner.nextLong();
                 genericList.addElement(number);
             } catch (InputMismatchException e) {
-                System.out.println("Error! Please enter number! Try again.");
-                scanner.next();
+                System.out.println("Error! Unexpected data type. Skipping: " + scanner.next());
             }
-
         }
     }
 
     public void getLines(){
-        System.out.println("Wpisz liczby (Ctrl+D aby zakończyć):");
+        System.out.println("Enter lines of text (Ctrl+D to finish):");
+        readLines(scanner);
+    }
+
+    public void readLines(Scanner scanner) {
         while (scanner.hasNextLine()){
             String line = scanner.nextLine();
             if (!line.trim().isEmpty()){
@@ -40,7 +46,11 @@ public class UserInput {
     }
 
     public void getWords(){
-        System.out.println("Wpisz liczby (Ctrl+D aby zakończyć):");
+        System.out.println("Enter words(Ctrl+D to finish):");
+        readWords(scanner);
+    }
+
+    public void readWords(Scanner scanner) {
         while (scanner.hasNext()){
             String word = scanner.next();
             genericList.addElement(word);
@@ -51,7 +61,7 @@ public class UserInput {
         String input;
         do {
             System.out.println(message);
-            input = scanner.nextLine().trim().toLowerCase();
+            input = scanner.nextLine().trim();
 
             if (input.isEmpty()) {
                 System.out.println("Input cannot be empty! Try again.");
@@ -74,8 +84,16 @@ public class UserInput {
     public String getSortingType(){
         return getUserChoice(
                 "Choose sorting type (natural, byCount):",
-                "natural|bycount",
+                "natural|byCount",
                 "Error! Wrong sorting type! Try again."
+        );
+    }
+
+    public String getFileInputChoice(String message){
+        return getUserChoice(
+                message,
+                "yes|no",
+                "Error! Wrong choice! Please enter 'yes' or 'no'."
         );
     }
 }

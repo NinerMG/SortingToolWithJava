@@ -1,0 +1,24 @@
+Unsorted list:
+1
+-2
+33
+4
+42
+1
+1
+Sorted natural:
+-2
+1
+1
+1
+4
+33
+42
+Unsorted list:
+1 -2   33 4
+42
+1                 1
+Sorted natural:
+1                 1
+1 -2   33 4
+42
